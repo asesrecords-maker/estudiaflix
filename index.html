@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estudiaflix - Tu Plataforma Educativa Streaming</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font (Inter & Montserrat) -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        efRed: '#E50914',
+                        efYellow: '#FFB700',
+                        efCyan: '#00D2C2',
+                        efCream: '#FBEAD2',
+                        efDark: '#141414',
+                        efCardBg: '#1f1f1f',
+                    },
+                    fontFamily: {
+                        brand: ['Montserrat', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #141414;
+            color: #ffffff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Estilos del Logo Estudiaflix */
+        .logo-estudia {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            letter-spacing: -1px;
+            text-shadow: 2px 2px 0px #000;
+        }
+        .letter-e1 { color: #E50914; }
+        .letter-s  { color: #FFB700; }
+        .letter-t  { color: #00D2C2; }
+        .letter-u  { color: #FFB700; }
+        .letter-d  { color: #FFB700; }
+        .letter-i  { color: #00D2C2; }
+        .letter-a  { color: #E50914; }
+
+        .logo-flix {
+            background: linear-gradient(135deg, #00D2C2 0%, #00a89b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Ocultar barra de desplazamiento en carruseles manteniendo scroll funcional */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Card Zoom Effect Netflix */
+        .course-card {
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease;
+        }
+        .course-card:hover {
+            transform: scale(1.05);
+            z-index: 20;
+            box-shadow: 0 10px 25px rgba(0, 210, 194, 0.2);
+        }
+
+        /* Glow effects */
+        .glow-red {
+            box-shadow: 0 0 20px rgba(229, 9, 20, 0.4);
+        }
+        .glow-cyan {
+            box-shadow: 0 0 20px rgba(0, 210, 194, 0.4);
+        }
+        .glow-yellow {
+            box-shadow: 0 0 20px rgba(255, 183, 0, 0.4);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-efCyan selection:text-black">
+
+    <!-- Navbar Principal -->
+    <header id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 bg-gradient-to-b from-black/90 via-black/50 to-transparent px-4 sm:px-8 py-4 flex items-center justify-between">
+        <div class="flex items-center space-x-8">
+            <!-- Logo Estudiaflix -->
+            <a href="#" class="flex flex-col items-center justify-center group transform transition duration-300 hover:scale-105">
+                <div class="logo-estudia text-2xl sm:text-3xl leading-none flex tracking-wider">
+                    <span class="letter-e1">E</span>
+                    <span class="letter-s">S</span>
+                    <span class="letter-t">T</span>
+                    <span class="letter-u">U</span>
+                    <span class="letter-d">D</span>
+                    <span class="letter-i">I</span>
+                    <span class="letter-a">A</span>
+                </div>
+                <div class="logo-flix text-xs sm:text-sm tracking-widest font-black -mt-1 bg-black px-2 rounded-full border border-efCyan/30">
+                    FLIX
+                </div>
+            </a>
+
+            <!-- Navegación Escritorio -->
+            <nav class="hidden md:flex space-x-6 text-sm text-gray-300">
+                <a href="#hero" class="hover:text-white font-medium transition">Inicio</a>
+                <a href="#categorias" class="hover:text-white font-medium transition">Cursos por Categorías</a>
+                <a href="#planes" class="hover:text-efYellow font-semibold transition">Suscripción</a>
+                <a href="#beneficios" class="hover:text-white font-medium transition">Beneficios</a>
+            </nav>
+        </div>
+
+        <!-- Botones de Acción / Auth -->
+        <div class="flex items-center space-x-4">
+            <button onclick="scrollToPlanes()" class="hidden sm:inline-block bg-gradient-to-r from-efRed to-red-700 hover:from-red-700 hover:to-efRed text-white font-bold px-5 py-2 rounded-full text-sm shadow-lg transform transition duration-200 hover:scale-105 border border-red-500/30">
+                <a href="https://tu-link-aqui.com" class="hidden sm:inline-block bg-gradient-to-r from-efRed to-red-700 hover:from-red-700 hover:to-efRed text-white font-bold px-5 py-2 rounded-full text-sm shadow-lg transform transition duration-200 hover:scale-105 border border-red-500/30"> <i class="fa-solid fa-crown mr-1 text-efYellow"></i> Suscribirme </a>
+            </button>
+            <button onclick="openModal('Curso Demo', 'Acceso para usuarios registrados.', 'https://www.youtube.com/embed/dQw4w9WgXcQ')" class="bg-efCyan hover:bg-teal-400 text-black font-bold px-4 py-2 rounded-full text-sm transition shadow-md hover:shadow-efCyan/40">
+                <a href="https://tu-link-aqui.com" class="bg-efCyan hover:bg-teal-400 text-black font-bold px-4 py-2 rounded-full text-sm transition shadow-md hover:shadow-efCyan/40"> Iniciar Sesión </a>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Banner (Portada Principal) -->
+    <section id="hero" class="relative w-full h-[85vh] sm:h-[90vh] flex items-end pb-16 px-6 sm:px-12 md:px-16 overflow-hidden">
+        <!-- Fondo de Hero (Imagen con Overlay Gradient) -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1600&auto=format&fit=crop" 
+                 alt="Curso Destacado Background" 
+                 class="w-full h-full object-cover object-center filter brightness-60 scale-105 animate-pulse" style="animation-duration: 8s;">
+            <div class="absolute inset-0 bg-gradient-to-t from-efDark via-efDark/60 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-efDark via-efDark/80 to-transparent"></div>
+        </div>
+
+        <!-- Contenido Hero -->
+        <div class="relative z-10 max-w-2xl space-y-4 sm:space-y-6">
+            <!-- Badge Destacado -->
+            <div class="inline-flex items-center space-x-2 bg-efRed/90 border border-efYellow/50 text-white text-xs font-bold px-3 py-1 rounded-md uppercase tracking-wider shadow-lg">
+                <i class="fa-solid fa-fire text-efYellow"></i>
+                <span>Curso Principal de la Semana</span>
+            </div>
+
+            <!-- Título del Curso Principal -->
+            <h1 class="text-4xl sm:text-6xl font-black font-brand leading-tight text-white drop-shadow-md">
+                Master en <span class="text-efCyan">Inteligencia Artificial</span> & Python
+            </h1>
+
+            <!-- Meta info del curso -->
+            <div class="flex items-center space-x-4 text-xs sm:text-sm text-gray-300 font-medium">
+                <span class="text-green-400 font-bold">98% de Valoración</span>
+                <span class="border border-gray-600 px-2 py-0.5 rounded text-gray-300">HD 4K</span>
+                <span>48 Horas de Contenido</span>
+                <span class="bg-efYellow/20 text-efYellow px-2 py-0.5 rounded font-bold border border-efYellow/40">Certificado Incluido</span>
+            </div>
+
+            <!-- Descripción Corta -->
+            <p class="text-gray-300 text-sm sm:text-base line-clamp-3 leading-relaxed">
+                Domina los algoritmos del futuro. Desde machine learning práctico hasta desarrollo de modelos LLM completos. Aprende desde cero con proyectos reales y accede al mercado laboral tech.
+            </p>
+
+            <!-- Acciones CTA -->
+            <div class="flex flex-wrap gap-4 pt-2">
+                <button onclick="openModal('Master en IA & Python', 'Aprende los fundamentos y la práctica avanzada de Inteligencia Artificial.', 'https://www.youtube.com/embed/tbnzAVgjaXc')" 
+                        class="bg-white hover:bg-gray-200 text-black font-bold px-7 py-3 rounded-xl flex items-center space-x-3 transition transform hover:scale-105 shadow-xl">
+                    <a href="https://asesrecords.systeme.io/demo" class="bg-white hover:bg-gray-200 text-black font-bold px-7 py-3 rounded-xl flex items-center space-x-3 transition transform hover:scale-105 shadow-xl"> <i class="fa-solid fa-play text-xl text-efRed"></i> <span class="text-base">Reproducir Demo</span> </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contenido Principal - Filas de Categorías estilo Netflix -->
+    <main id="categorias" class="relative z-20 space-y-12 pb-16 -mt-10 sm:-mt-16">
+
+        <!-- CATEGORÍA 1: Programación & Tecnología -->
+        <section class="px-4 sm:px-12">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl sm:text-2xl font-bold text-white font-brand flex items-center gap-2">
+                    <span class="w-2 h-6 bg-efCyan rounded-full"></span>
+                    Programación & Tecnología
+                </h2>
+                <a href="#planes" class="text-xs sm:text-sm text-efCyan font-semibold hover:underline">Ver todo &rarr;</a>
+            </div>
+
+            <!-- Carrusel Horizontal -->
+            <div class="relative group">
+                <div id="row-tech" class="flex space-x-4 sm:space-x-6 overflow-x-auto no-scrollbar scroll-smooth py-4 px-1">
+                    
+                    <!-- Card 1 -->
+                    <div onclick="openModal('Fullstack Web Developer', 'Conviértete en desarrollador web moderno aprendiendo React, Node.js y Tailwind.', 'https://www.youtube.com/embed/Ke90Tje7VS0')" 
+                         class="course-card flex-none w-60 sm:w-72 bg-efCardBg rounded-xl overflow-hidden cursor-pointer border border-gray-800 hover:border-efCyan">
+                        <div class="relative h-36 sm:h-44">
+                            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover" alt="Fullstack">
+                            <span class="absolute top-2 left-2 bg-efRed text-white text-[10px] font-bold px-2 py-0.5 rounded">POPULAR</span>
+                            <span class="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                                <i class="fa-regular fa-clock text-efYellow"></i> 32h
+                            </span>
+                        </div>
+                        <div class="p-4 space-y-2">
+                            <h3 class="font-bold text-white text-base truncate">Fullstack Web Developer 2026</h3>
+                            <div class="flex items-center justify-between text-xs text-gray-400">
+                                <span class="text-efYellow font-bold"><i class="fa-solid fa-star"></i> 4.9</span>
+                                <span>35 Módulos</span>
+                                <span class="text-efCyan font-medium">Básico a Avanzado</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div onclick="openModal('Ciberseguridad y Hacking Ético', 'Aprende a proteger sistemas y realizar auditorías de seguridad profesional.', 'https://www.youtube.com/embed/inWWhr5tnEA')" 
+                         class="course-card flex-none w-60 sm:w-72 bg-efCardBg rounded-xl overflow-hidden cursor-pointer border border-gray-800 hover:border-efCyan">
+                        <div class="relative h-36 sm:h-44">
+                            <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover" alt="Ciberseguridad">
+                            <span class="absolute top-2 left-2 bg-efCyan text-black text-[10px] font-bold px-2 py-0.5 rounded">NUEVO</span>
+                            <span class="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                                <i class="fa-regular fa-clock text-efYellow"></i> 24h
+                            </span>
+                        </div>
+                        <div class="p-4 space-y-2">
+                            <h3 class="font-bold text-white text-base truncate">Ciberseguridad y Hacking Ético</h3>
+                            <div class="flex items-center justify-between text-xs text-gray-400">
+                                <span class="text-efYellow font-bold"><i class="fa-solid fa-star"></i> 4.8</span>
+                                <span>20 Módulos</span>
+                                <span class="text-efCyan font-medium">Intermedio</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div onclick="openModal('Desarrollo de Apps Móviles iOS/Android', 'Crea aplicaciones nativas con Flutter y React Native.', 'https://www.youtube.com/embed/x0uinJvhNxI')" 
+                         class="course-card flex-none w-60 sm:w-72 bg-efCardBg rounded-xl overflow-hidden cursor-pointer border border-gray-800 hover:border-efCyan">
+                        <div class="relative h-36 sm:h-44">
+                            <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover" alt="Apps Móviles">
+                            <span class="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                                <i class="fa-regular fa-clock text-efYellow"></i> 40h
+                            </span>
+                        </div>
+                        <div class="p-4 space-y-2">
+                            <h3 class="font-bold text-white text-base truncate">Desarrollo de Apps Móviles</h3>
+                            <div class="flex items-center justify-between text-xs text-gray-400">
+                                <span class="text-efYellow font-bold"><i class="fa-solid fa-star"></i> 4.7</span>
+                                <span>28 Módulos</span>
+                                <span class="text-efCyan font-medium">Todos los niveles</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 4 -->
+                    <div onclick="openModal('Ciencia de Datos & Big Data', 'Transforma datos masivos en decisiones de negocio con R y Python.', 'https://www.youtube.com/embed/ua-CiDNNj3U')" 
+                         class="course-card flex-none w-60 sm:w-72 bg-efCardBg rounded-xl overflow-hidden cursor-pointer border border-gray-800 hover:border-efCyan">
+                        <div class="relative h-36 sm:h-44">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover" alt="Data Science">
+                            <span class="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                                <i class="fa-regular fa-clock text-efYellow"></i> 50h
+                            </span>
+                        </div>
+                        <div class="p-4 space-y-2">
+                            <h3 class="font-bold text-white text-base truncate">Ciencia de Datos & Big Data</h3>
+                            <div class="flex items-center justify-between text-xs text-gray-400">
+                                <span class="text-efYellow font-bold"><i class="fa-solid fa-star"></i> 5.0</span>
+                                <span>42 Módulos</span>
+                                <span class="text-efCyan font-medium">Avanzado</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CATEGORÍA 2: Idiomas & Comunicación Global -->
+        <section class="px-4 sm:px-12">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl sm:text-2xl font-bold text-white font-brand flex items-center gap-2">
+                    <span class="w-2 h-6 bg-efYellow rounded-full"></span>
+                    Idiomas & Comunicación Global
+                </h2>
+                <a href="#planes" class="text-xs sm:text-sm text-efCyan font-semibold hover:underline">Ver todo &rarr;</a>
+            </div>
+
+            <div class="relative group">
+                <div id="row-idiomas" class="flex space-x-4 sm:space-x-6 overflow-x-auto no-scrollbar scroll-smooth py-4 px-1">
+                    
+                    <!-- Card 1 -->
+                    <div onclick="openModal('Inglés Fluido en 90 Días', 'Método inmersivo para hablar inglés con confianza sin memorizar gramática aburrida.', 'https://www.youtube.com/embed/juKd26qkbuw')" 
+                         class="course-card flex-none w-60 sm:w-72 bg-efCardBg rounded-xl overflow-hidden cursor-pointer border border-gray-800 hover:border-efYellow">
+                        <div class="relative h-36 sm:h-44">
+                            <img src="https://images.unsplash.com/photo-1543269865-cbf427effbad?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover" alt="Inglés">
+                            <span class="absolute top-2 left-2 bg-efYellow text-black text-[10px] font-bold px-2 py-0.5 rounded">MÁS VISTO</span>
+                            <span class="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                                <i class="fa-regular fa-clock text-efYellow"></i> 60h
+                            </span>
+                        </div>
+                        <div class="p-4 space-y-2">
+                            <h3 class="font-bold text-white text-base truncate">Inglés Fluido en 90 Días</h3>
+                            <div class="flex items-center justify-between text-xs text-gray-400">
+                                <span class="text-efYellow font-bold"><i class="fa-solid fa-star"></i> 4.9</span>
+                                <span>60 Lecciones</span>
+                                <span class="text-efYellow font-medium">Básico a C1</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div onclick="openModal('Italiano Práctico para Viajeros y Negocios', 'Domina la lengua y cultura italiana de forma dinámica.', 'https://www.youtube.com/embed/dQw4w9WgXcQ')" 
+                         class="course-card flex-none w-60 sm:w-72 bg-efCardBg rounded-xl overflow-hidden cursor-pointer border border-gray-800 hover:border-efYellow">
+                        <div class="relative h-36 sm:h-44">
+                            <img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover" alt="Italiano">
+                            <span class="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                                <i class="fa-regular fa-clock text-efYellow"></i> 18h
+                            </span>
+                        </div>
+                        <div class="p-4 space-y-2">
+                            <h3 class="font-bold text-white text-base truncate">Italiano Práctico</h3>
+                            <div class="flex items-center justify-between text-xs text-gray-400">
+                                <span class="text-efYellow font-bold"><i class="fa-solid fa-star"></i> 4.8</span>
+                                <span>15 Lecciones</span>
+                                <span class="text-efYellow font-medium">Principiantes</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div onclick="openModal('Francés Profesional & Conversacional', 'Habla francés fluido con acento natural y vocabulario de negocios.', 'https://www.youtube.com/embed/dQw4w9WgXcQ')" 
+                         class="course-card flex-none w-60 sm:w-72 bg-efCardBg rounded-xl overflow-hidden cursor-pointer border border-gray-800 hover:border-efYellow">
+                        <div class="relative h-36 sm:h-44">
+                            <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover" alt="Francés">
+                            <span class="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                                <i class="fa-regular fa-clock text-efYellow"></i> 30h
+                            </span>
+                        </div>
+                        <div class="p-4 space-y-2">
+                            <h3 class="font-bold text-white text-base truncate">Francés Conversacional</h3>
+                            <div class="flex items-center justify-between text-xs text-gray-400">
+                                <span class="text-efYellow font-bold"><i class="fa-solid fa-star"></i> 4.7</span>
+                                <span>25 Lecciones</span>
+                                <span class="text-efYellow font-medium">Intermedio</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CATEGORÍA 3: Ciencias & Matemáticas -->
+        <section class="px-4 sm:px-12">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl sm:text-2xl font-bold text-white font-brand flex items-center gap-2">
+                    <span class="w-2 h-6 bg-efRed rounded-full"></span>
+                    Matemáticas & Ciencias Exactas
+                </h2>
+                <a href="#planes" class="text-xs sm:text-sm text-efCyan font-semibold hover:underline">Ver todo &rarr;</a>
+            </div>
+
+            <div class="relative group">
+                <div id="row-ciencias" class="flex space-x-4 sm:space-x-6 overflow-x-auto no-scrollbar scroll-smooth py-4 px-1">
+                    
+                    <!-- Card 1 -->
+                    <div onclick="openModal('Cálculo Multivariable y Álgebra', 'Aprende las bases matemáticas avanzadas necesarias para ingeniería y tecnología.', 'https://www.youtube.com/embed/dQw4w9WgXcQ')" 
+                         class="course-card flex-none w-60 sm:w-72 bg-efCardBg rounded-xl overflow-hidden cursor-pointer border border-gray-800 hover:border-efRed">
+                        <div class="relative h-36 sm:h-44">
+                            <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover" alt="Matemáticas">
+                            <span class="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                                <i class="fa-regular fa-clock text-efYellow"></i> 45h
+                            </span>
+                        </div>
+                        <div class="p-4 space-y-2">
+                            <h3 class="font-bold text-white text-base truncate">Cálculo & Álgebra Superior</h3>
+                            <div class="flex items-center justify-between text-xs text-gray-400">
+                                <span class="text-efYellow font-bold"><i class="fa-solid fa-star"></i> 4.9</span>
+                                <span>40 Módulos</span>
+                                <span class="text-efRed font-medium">Universitario</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div onclick="openModal('Física Cuántica Simplificada', 'Descubre los enigmas del universo con explicaciones intuitivas y claras.', 'https://www.youtube.com/embed/dQw4w9WgXcQ')" 
+                         class="course-card flex-none w-60 sm:w-72 bg-efCardBg rounded-xl overflow-hidden cursor-pointer border border-gray-800 hover:border-efRed">
+                        <div class="relative h-36 sm:h-44">
+                            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=600&auto=format&fit=crop" class="w-full h-full object-cover" alt="Física">
+                            <span class="absolute bottom-2 right-2 bg-black/80 text-white text-xs px-2 py-0.5 rounded flex items-center gap-1">
+                                <i class="fa-regular fa-clock text-efYellow"></i> 22h
+                            </span>
+                        </div>
+                        <div class="p-4 space-y-2">
+                            <h3 class="font-bold text-white text-base truncate">Física Cuántica Simplificada</h3>
+                            <div class="flex items-center justify-between text-xs text-gray-400">
+                                <span class="text-efYellow font-bold"><i class="fa-solid fa-star"></i> 4.8</span>
+                                <span>18 Módulos</span>
+                                <span class="text-efRed font-medium">Divulgación</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Sección de Planes de Suscripción Mensual (Optimizado para Systeme.io) -->
+    <!-- Sección de Planes de Suscripción Mensual (Optimizado para Systeme.io y Mercado Pago) -->
+    <section id="planes" class="py-20 px-4 sm:px-8 bg-gradient-to-b from-efDark via-black to-efDark relative">
+        <div class="max-w-5xl mx-auto text-center space-y-4 mb-16">
+            <div class="inline-flex items-center gap-2 bg-efCyan/10 text-efCyan px-4 py-1.5 rounded-full text-xs font-bold border border-efCyan/30">
+                <i class="fa-solid fa-shield-halved"></i> 7 Días de Prueba Gratis • Cancela cuando quieras
+            </div>
+            <h2 class="text-3xl sm:text-5xl font-black font-brand text-white">
+                Comienza gratis, <span class="text-efYellow">aprende sin límites</span>
+            </h2>
+            <p class="text-gray-400 max-w-xl mx-auto text-sm sm:text-base">
+                Prueba todos los cursos por 7 días sin cargo.
+Pago seguro procesado por Mercado Pago y tarjetas de crédito/débito.
+            </p>
+        </div>
+
+        <!-- Tarjetas de Suscripción con Trial -->
+        <div class="max-w-4xl mx-auto grid md:grid-cols-2 gap-8 items-center">
+            
+            <!-- Plan Mensual Estándar -->
+            <div class="bg-efCardBg border border-gray-800 rounded-3xl p-8 space-y-6 relative hover:border-efCyan transition">
+                <h3 class="text-xl font-bold text-white">Plan Mensual Básico</h3>
+                <p class="text-xs text-gray-400">Acceso completo con 7 días de prueba sin cargo.</p>
+                <div class="flex items-baseline space-x-1">
+                    <span class="text-4xl font-black text-white font-brand">$14.99</span>
+                    <span class="text-gray-400 text-sm">/ mes después del trial</span>
+                </div>
+
+                <ul class="space-y-3 text-sm text-gray-300 text-left pt-4 border-t border-gray-800">
+                    <li class="flex items-center gap-3">
+                        <i class="fa-solid fa-check text-efCyan"></i> 7 días de prueba 100% gratis
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fa-solid fa-check text-efCyan"></i> Acceso a +200 Cursos y categorías
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fa-solid fa-check text-efCyan"></i> Certificados digitales
+                    </li>
+                </ul>
+
+                <button onclick="openTrialModal('Plan Básico - 7 Días Gratis', '14.99')" class="block w-full text-center bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 rounded-xl transition border border-gray-700">
+                    <a href="https://tu-link-aqui.com" target="_blank" class="block w-full text-center bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 rounded-xl transition border border-gray-700"> <i class="fa-solid fa-bolt text-efYellow mr-1"></i> Activar 7 Días Gratis </a>
+                </button>
+            </div>
+
+            <!-- Plan Mensual VIP (RECOMENDADO con Mercado Pago) -->
+            <div class="bg-gradient-to-b from-gray-900 to-black border-2 border-efYellow rounded-3xl p-8 space-y-6 relative shadow-2xl glow-yellow transform md:-translate-y-2">
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-gradient-to-r from-efYellow to-yellow-500 text-black font-black text-xs px-4 py-1.5 rounded-full uppercase tracking-wider shadow-lg">
+                    ¡MÁS POPULAR! • 7 DÍAS GRATIS
+                </div>
+
+                <h3 class="text-2xl font-bold text-white flex items-center justify-between">
+                    <span>Membresía VIP</span>
+                    <i class="fa-solid fa-crown text-efYellow"></i>
+                </h3>
+                <p class="text-xs text-gray-300">Acceso total sin restricciones + Mentorías en vivo.</p>
+
+                <div class="flex items-baseline space-x-1">
+                    <span class="text-5xl font-black text-efYellow font-brand">$24.99</span>
+                    <span class="text-gray-400 text-sm">/ mes después del trial</span>
+                </div>
+
+                <ul class="space-y-3 text-sm text-gray-200 text-left pt-4 border-t border-gray-800">
+                    <li class="flex items-center gap-3">
+                        <i class="fa-solid fa-check text-efYellow"></i> 7 días de prueba VIP sin costo
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fa-solid fa-check text-efYellow"></i> Acceso ILIMITADO a todos los cursos
+                    </li>
+                    <li class="flex items-center gap-3">
+                        <i class="fa-solid fa-check text-efYellow"></i> Calidad Ultra HD 4K & Descargas offline
+                    </li>
+                    <li class="flex items-center gap-3 font-semibold text-efCyan">
+                        <i class="fa-solid fa-star text-efCyan"></i> Grupo privado Discord & Sesiones en vivo
+                    </li>
+                </ul>
+
+                <!-- Botón destacado Mercado Pago y Tarjeta -->
+                <button onclick="openTrialModal('Membresía VIP - 7 Días Gratis', '24.99')" class="w-full text-center bg-gradient-to-r from-efRed via-red-600 to-efRed hover:opacity-90 text-white font-bold py-4 rounded-xl transition shadow-xl text-base transform hover:scale-[1.02] flex items-center justify-center gap-2">
+                    <a href="ACA-WEB" target="_blank" class="w-full text-center bg-gradient-to-r from-efRed via-red-600 to-efRed hover:opacity-90 text-white font-bold py-4 rounded-xl transition shadow-xl text-base transform hover:scale-[1.02] flex items-center justify-center gap-2"> <i class="fa-solid fa-credit-card text-efYellow"></i> <span>Iniciar Prueba Gratis con Tarjeta / Mercado Pago</span> </a>
+                </button>
+                <div class="flex items-center justify-center gap-2 text-[11px] text-gray-400 pt-1">
+                    <i class="fa-solid fa-lock text-efCyan"></i> Procesamiento seguro por Mercado Pago & SSL
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Modales de Reproducción / Información -->
+    <div id="videoModal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-efCardBg border border-gray-800 rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl relative">
+            <button onclick="closeModal()" class="absolute top-4 right-4 z-10 text-gray-400 hover:text-white bg-black/60 rounded-full w-10 h-10 flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <div class="relative aspect-video">
+                <iframe id="modalIframe" class="w-full h-full" src="" title="Video Player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="p-6 space-y-3">
+                <h3 id="modalTitle" class="text-2xl font-bold text-white font-brand"></h3>
+                <p id="modalDescription" class="text-gray-300 text-sm leading-relaxed"></p>
+                <div class="pt-4 flex justify-end">
+                    <button onclick="closeModal(); scrollToPlanes();" class="bg-efRed hover:bg-red-700 text-white font-bold px-6 py-2.5 rounded-xl text-sm transition">
+                        Comenzar 7 Días Gratis
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Registro de Tarjeta y 7 Días de Prueba Gratis -->
+    <div id="trialModal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-efCardBg border border-gray-800 rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl relative p-6 sm:p-8 space-y-6 my-8">
+            <button onclick="closeTrialModal()" class="absolute top-4 right-4 z-10 text-gray-400 hover:text-white bg-black/60 rounded-full w-10 h-10 flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <!-- Cabecera Modal Trial -->
+            <div class="space-y-2 text-center">
+                <span class="bg-efYellow/20 text-efYellow text-xs font-bold px-3 py-1 rounded-full border border-efYellow/30 uppercase tracking-widest">
+                    <i class="fa-solid fa-gift"></i> Sin cobros hoy
+                </span>
+                <h3 id="trialModalTitle" class="text-2xl font-black font-brand text-white">Activa tus 7 Días Gratis</h3>
+                <p class="text-xs text-gray-400">Verificamos tu tarjeta o cuenta de Mercado Pago para activar tu acceso inmediato. No se te cobrará nada hasta que terminen los 7 días.</p>
+            </div>
+
+            <!-- Formulario de Tarjeta / Datos -->
+            <form id="trialForm" onsubmit="handleTrialSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Nombre Completo en la Tarjeta</label>
+                    <input type="text" required placeholder="Ej. Carlos Pérez" class="w-full bg-black/50 border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:border-efCyan focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Correo Electrónico (para tu cuenta Estudiaflix)</label>
+                    <input type="email" required placeholder="tucorreo@email.com" class="w-full bg-black/50 border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:border-efCyan focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Número de Tarjeta (Débito o Crédito)</label>
+                    <div class="relative">
+                        <input type="text" required maxlength="19" placeholder="4500 •••• •••• ••••" class="w-full bg-black/50 border border-gray-700 rounded-xl pl-4 pr-12 py-3 text-white text-sm focus:border-efCyan focus:outline-none font-mono">
+                        <div class="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1 text-gray-400 text-lg">
+                            <i class="fa-brands fa-cc-visa text-blue-400"></i>
+                            <i class="fa-brands fa-cc-mastercard text-orange-400"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">Expiración (MM/AA)</label>
+                        <input type="text" required maxlength="5" placeholder="MM/AA" class="w-full bg-black/50 border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:border-efCyan focus:outline-none font-mono">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">CVV (Seguridad)</label>
+                        <input type="password" required maxlength="4" placeholder="123" class="w-full bg-black/50 border border-gray-700 rounded-xl px-4 py-3 text-white text-sm focus:border-efCyan focus:outline-none font-mono">
+                    </div>
+                </div>
+
+                <!-- Opciones de pago alternativo (Mercado Pago badge) -->
+                <div class="pt-2">
+                    <div class="p-3 bg-blue-950/30 border border-blue-500/30 rounded-xl flex items-center justify-between text-xs text-blue-300">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-bolt text-efYellow text-base"></i>
+                            <span>¿Prefieres pagar o validar con <b>Mercado Pago</b>?</span>
+                        </div>
+                        <a href="https://www.mercadopago.com" target="_blank" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-3 py-1.5 rounded-lg transition">Conectar MP</a>
+                    </div>
+                </div>
+
+                <div class="pt-2">
+                    <button type="submit" class="w-full bg-gradient-to-r from-efRed to-red-600 hover:from-red-600 hover:to-efRed text-white font-bold py-3.5 rounded-xl transition shadow-lg text-base">
+                        Iniciar Mis 7 Días Gratis
+                    </button>
+                </div>
+
+                <p class="text-[10px] text-gray-500 text-center leading-tight">
+                    Al hacer clic en iniciar, autorizas a Estudiaflix a verificar tu tarjeta. Recibirás un cargo automático de prueba de $0.00 o validación mínima que se reembolsa al instante. Al finalizar los 7 días comenzará tu suscripción mensual la cual puedes cancelar en cualquier momento con un clic.
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Mensaje de Éxito de Suscripción Trial -->
+    <div id="successModal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-efCardBg border border-efCyan rounded-3xl w-full max-w-md p-8 text-center space-y-4 shadow-2xl glow-cyan">
+            <div class="w-16 h-16 bg-efCyan/20 text-efCyan rounded-full flex items-center justify-center mx-auto text-3xl">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white font-brand">¡Prueba Activada con Éxito!</h3>
+            <p class="text-gray-300 text-sm">
+                Tus 7 días de acceso total a Estudiaflix están activos. Te hemos enviado tus credenciales de acceso a tu correo electrónico.
+            </p>
+            <button onclick="closeSuccessModal()" class="w-full bg-efCyan hover:bg-teal-400 text-black font-bold py-3 rounded-xl transition">
+                Ir a Ver Cursos
+            </button>
+        </div>
+    </div>
+
+    <!-- Footer Estilo Streaming -->
+    <footer class="bg-black text-gray-500 text-xs py-12 px-6 sm:px-12 border-t border-gray-900">
+        <div class="max-w-6xl mx-auto space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4">
+                <!-- Logo Mini -->
+                <div class="logo-estudia text-xl flex tracking-wider">
+                    <span class="letter-e1">E</span>
+                    <span class="letter-s">S</span>
+                    <span class="letter-t">T</span>
+                    <span class="letter-u">U</span>
+                    <span class="letter-d">D</span>
+                    <span class="letter-i">I</span>
+                    <span class="letter-a">A</span>
+                    <span class="logo-flix ml-1">FLIX</span>
+                </div>
+                <div class="flex space-x-6 text-gray-400 text-base">
+                    <a href="https://instagram.com/estudiaflix" target="_blank" rel="noopener noreferrer" class="hover:text-efCyan"> <i class="fa-brands fa-instagram"></i> </a>
+                   <a href="https://youtube.com/@Estudiaflix" target="_blank" rel="noopener noreferrer" class="hover:text-efCyan"> <i class="fa-brands fa-youtube"></i> </a>
+                    <a href="https://tiktok.com/@estudiaflix" target="_blank" rel="noopener noreferrer" class="hover:text-efCyan"> <i class="fa-brands fa-tiktok"></i> </a>
+                </div>
+            </div>
+            <p class="text-center sm:text-left">
+                © 2026 Estudiaflix Inc. Todos los derechos reservados.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Lógica JavaScript Vanilla -->
+    <script>
+        // Efecto Navbar al hacer Scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-black', 'shadow-2xl');
+                navbar.classList.remove('bg-gradient-to-b');
+            } else {
+                navbar.classList.remove('bg-black', 'shadow-2xl');
+                navbar.classList.add('bg-gradient-to-b');
+            }
+        });
+
+        // Abrir Modal de Video
+        function openModal(title, description, embedUrl) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalDescription').innerText = description;
+            document.getElementById('modalIframe').src = embedUrl;
+            document.getElementById('videoModal').classList.remove('hidden');
+        }
+
+        // Cerrar Modal
+        function closeModal() {
+            document.getElementById('videoModal').classList.add('hidden');
+            document.getElementById('modalIframe').src = '';
+        }
+
+        // Scroll suave a sección de planes
+        function scrollToPlanes() {
+            document.getElementById('planes').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Funciones para el Modal de 7 Días de Prueba Gratis
+        function openTrialModal(planName, price) {
+            document.getElementById('trialModalTitle').innerText = Activa tus 7 Días Gratis (${planName});
+            document.getElementById('trialModal').classList.remove('hidden');
+        }
+
+        function closeTrialModal() {
+            document.getElementById('trialModal').classList.add('hidden');
+        }
+
+        function handleTrialSubmit(event) {
+            event.preventDefault();
+            closeTrialModal();
+            document.getElementById('successModal').classList.remove('hidden');
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
